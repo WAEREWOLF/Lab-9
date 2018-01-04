@@ -1,0 +1,96 @@
+#include<stdlib.h>
+#include<stdio.h>
+
+// Merges two subarrays of arr[].
+// First subarray is arr[left..mid]
+// Second subarray is arr[mid+1..right]
+void merge(int arr[], int left, int mid, int right)
+{
+    int i, j, k;
+    int first_half = mid - left + 1;
+    int second_half =  right - mid;
+
+   
+    int L[first_half], R[second_half];
+
+  
+    for (i = 0; i < first_half; i++)
+        L[i] = arr[left + i];
+    for (j = 0; j < second_half; j++)
+        R[j] = arr[mid + 1+ j];
+
+    
+    i = 0; // Initial index of first subarray
+    j = 0; // Initial index of second subarray
+    k = left; // Initial index of merged subarray
+    while (i < first_half && j < second_half)
+    {
+        if (L[i] <= R[j])
+        {
+            arr[k] = L[i];
+            i++;
+        }
+        else
+        {
+            arr[k] = R[j];
+            j++;
+        }
+        k++;
+    }
+
+    
+    while (i < first_half)
+    {
+        arr[k] = L[i];
+        i++;
+        k++;
+    }
+
+   
+    while (j < second_half)
+    {
+        arr[k] = R[j];
+        j++;
+        k++;
+    }
+}
+
+
+void mergeSort(int arr[], int left, int right)
+{
+    if (left < right)
+    {
+       
+        int mid = left+(right-left)/2;
+
+        mergeSort(arr, left, mid);
+        mergeSort(arr, mid+1, right);
+
+        merge(arr, left, mid, right);
+    }
+}
+
+
+void printArray(int A[], int size)
+{
+    int i;
+    for (i=0; i < size; i++)
+        printf("%d ", A[i]);
+    printf("\n");
+}
+
+
+int main()
+{
+    int arr[] = {12, 11, 13, 5, 6, 7};
+    int arr_size = sizeof(arr)/sizeof(arr[0]);
+
+    printf("Given array is \n");
+    printArray(arr, arr_size);
+
+    mergeSort(arr, 0, arr_size - 1);
+
+    printf("\nSorted array is \n");
+    printArray(arr, arr_size);
+    return 0;
+}
